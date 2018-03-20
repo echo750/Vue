@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<div id="ex1">
+		<h1 v-if="ok">Yes</h1>
+		<h1 v-else>No</h1>
+	</div>
+
+	<div id="ex3">
+		<div v-if="Math.random()>0.5">Now you see me</div>
+		<div v-else>Now you don't</div>
+	</div>
+
+	<div id="ex4">
+		<template v-if="ok">
+		<h1>Title</h1>
+		<p>Paragraph 1</p>
+		<p>Paragraph 2</p>
+	</template>
+	</div>
+
+	<div id="ex5">
+		<div v-if="type=='A'">A</div>
+		<div v-else-if="type=='B'">B</div>
+		<div v-else-if="type=='C'">C</div>
+		<div v-else>NOT a/b/c</div>
+	</div>
+	
+	<div id="ex6">
+		<template v-if="loginType==='username'">
+			<label>Username</label>
+			<input placeholder="Enter your username" key="username-input">
+		</template>
+		<template v-else>
+			<label>Email</label>
+			<input placeholder="Enter your email address" key="email-input">
+		</template>
+		<button v-on:click="toggle">Toggle login type</button>
+	</div>
+
+	<div id="ex7">
+		<div v-show="ok">Hello!</div>
+	</div>
+	<!-- v-if是真正的条件渲染，
+	会确保在切换过程中条件块内的事件监听器和子组件适当的被销毁和重建 -->
+	<!-- v-if也是惰性的，如果在初始渲染条件时为假，则什么也不做，直到条件第一次变为真是才会开始渲染条件块 -->
+	<!-- v-show不管初始条件是什么，元素总是会被渲染，并且只是简单的基于CSS进行切换 -->
+	<!-- v-if有更高的切换开销，而v-show有更高的初始渲染开销。如果需要非常频繁的切换，则使用v-show，如果在运行条件很少改变，则使用v-if -->
+	<script type="text/javascript">
+		var vm1=new Vue({
+			el:'#ex1',
+			data:{
+				ok:false
+			}
+		});
+
+		var vm3=new Vue({
+			el:'#ex3',
+			data:{
+				"Math.random()":Math.random()
+			}
+		});
+
+		new Vue({
+			el:"#ex4",
+			data:{
+				ok:true
+			}
+		});
+
+		new Vue({
+			el:'#ex5',
+			data:{
+				type:'h'
+			}
+		});
+
+		new Vue({
+			el:'#ex6',
+			data:{
+				loginType:'username'
+			},
+			methods:{
+				toggle:function(){
+					if(this.loginType!='username'){
+						return this.loginType='username';
+					}else{
+						return this.loginType='email';
+					}
+				}
+			}
+		});
+
+		new Vue({
+			el:'#ex7',
+			data:{
+				ok:true
+			}
+		})
+	</script>
+</body>
+</html>
