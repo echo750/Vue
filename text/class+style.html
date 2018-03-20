@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<!-- <div id="ex1" v-bind:class="{active:isActive}"></div>
+	<div id="ex1" class="static" v-bind:class="{active:isActive,'text-danger':hasError}"></div> -->
+	<div id="ex1" v-bind:class="classObject"></div>
+	<div id="ex2" v-bind:class="[activeClass,errorClass]"></div>
+	<div id="ex3" v-bind:class="[isActive ? activeClass:'',errorClass]"></div>
+    <my-component id="ex4" class="baz boo"></my-component>
+	<div id="ex5" v-bind:style="{color:activeColor,fontSize:fontSize+'px'}">hello</div>
+	<div id="ex6" v-bind:style="[baseStyle,overridingStyles]">hi</div>
+	<div id="ex7" :style="{display:{'-webkit-box,'-ms-flexbox','flex'}}"></div>
+	<script type="text/javascript">
+		var vm=new Vue({
+		    el:'#ex1',
+		    // data:{
+		    // 	isActive:true,
+		    // 	hasError:false
+		    // }
+		    // data:{
+		    // 	classObject:{
+		    // 		active:true,
+		    // 		'text-danger':false
+		    // 	}
+		    // }
+		    data:{
+		    	isActive:true,
+		    	error:null
+		    },
+		    computed:{
+		    	classObject:function(){
+		    		return {
+		    			active:this.isActive&&!this.error,'text-danger':this.error&&this.error.type==='fatal'
+		    		}
+		    	}
+		    }
+		});
+		var vm2=new Vue({
+			el:'#ex2',
+			data:{
+				activeClass:'active',
+				errorClass:'text-danger'
+			}
+		});
+		Vue.component('my-component',{
+			template:'<p class="foo bar">Hi</p>'
+		});
+		new Vue({
+			el:'#ex4'
+		})
+		new Vue({
+			el:'#ex5',
+			data:{
+				activeColor:'red',
+				fontSize:30
+			}
+		});
+		new Vue({
+			el:'#ex6',
+			data:{
+				baseStyle:{
+					color:'red',
+				},
+				overridingStyles:{
+					fontSize:30+'px'
+				}
+			}
+		})
+	</script>
+</body>
+</html>
