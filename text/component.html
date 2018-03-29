@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<div id="example1">
+		<my-component></my-component>
+	</div>
+	<div id="example2">
+		<my-component></my-component>
+	</div>
+	<div id="example3">
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+	</div>
+	<div id="example4">
+		<child my-Message="hello"></child>
+	</div>
+	<div id="example5">
+		<input type="text" v-model="parentMsg" name="">
+		<br>
+		<child v-bind:my-message="parentMsg"></child>
+	</div>
+	<div id="example6">
+		<ul>
+			<todo-item v-for='todo in todos' 
+			v-bind:todo="todo"></todo-item>
+		</ul>
+	</div>
+	<script type="text/javascript" >
+		// 在初始化根实例之前注册组建，component全局注册组件
+		Vue.component('my-component',{
+			template:'<div>A custome component!</div>'
+		});
+		// new Vue({
+		// 	el:'#example1'
+		// });
+		var Child={
+			template:'<div>A custome component!</div>'
+		};
+		new Vue({
+			el:'#example1',
+			// 局部组件
+			components:{
+				'my-component':Child
+			}
+		});
+		new Vue({
+			el:'#example2'
+		});
+
+		var data={counter:0}
+		Vue.component('simple-counter',{
+			template:'<button v-on:click="counter+=1">{{counter}}</button>',
+			data:function(){
+				return {
+					counter:0
+				};
+			}
+		});
+		new Vue({
+			el:'#example3',
+		});
+		Vue.component('child',{
+			props:['myMessage'],
+			template:'<span>{{myMessage}}</span>'
+		});
+		new Vue({
+			el:'#example4'
+		});
+		new Vue({
+			el:'#example5',
+			data:{
+				parentMsg:''
+			}
+		});
+		Vue.component('todo-item',{
+			props:['todo'],
+			template:'<li>{{todo.text}}</li>'
+		});
+		new Vue({
+			el:'#example6',
+			data:{
+				todos:[
+				{text:'yang'},
+				{text:'echo'}
+				]
+			}
+		});
+	</script>
+</body>
+</html>
